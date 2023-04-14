@@ -24,8 +24,10 @@ a:hover {
 }
 
 body {
-  margin: 0;
+  margin: 0 auto;
   display: flex;
+  align-items: center;
+  justify-content: center;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
@@ -87,7 +89,8 @@ ul li {
   flex-wrap: wrap;
   justify-content: center;
 }
-.heading {
+.heading, .loading {
   text-align: center;
 }
+
 /* http://www.omdbapi.com/?i=tt3896198 */

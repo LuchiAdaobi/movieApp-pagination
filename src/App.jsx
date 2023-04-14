@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "./components/Pagination";
+import { config } from "dotenv";
+// config();
+ 
+if (typeof process !== "undefined") {
+  config();
+}
 
 function MovieList() {
+  const apiKey = import.meta.env.VITE_REACT_APP_API_KEY ; // Set default value for API key
+  console.log(apiKey)
+
   const [movies, setMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalMovies, setTotalMovies] = useState(0);
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const response = await fetch(
-        `http://www.omdbapi.com/?i=tt3896198&apikey=9a85a143&s=batman&page=${currentPage}`
-      );
+      const response = await fetch(`${apiKey}&s=batman&page=${currentPage}`);
+      console.log(response); // Log the response object
       const data = await response.json();
       if (data.Search) {
         setMovies(data.Search);
@@ -19,7 +27,7 @@ function MovieList() {
     };
 
     fetchMovies();
-  }, [currentPage]);
+  }, [currentPage, apiKey]);
 
   const totalPages = Math.ceil(totalMovies / 10);
 
@@ -28,7 +36,7 @@ function MovieList() {
   };
 
   return (
-    <div >
+    <div>
       <h1 className="heading">MovieRama</h1>
       {movies.length > 0 ? (
         <ul className="movie">
@@ -40,7 +48,7 @@ function MovieList() {
           ))}
         </ul>
       ) : (
-        <p>Loading...</p>
+        <p className="loading">Loading...</p>
       )}
       <Pagination
         totalPages={totalPages}
